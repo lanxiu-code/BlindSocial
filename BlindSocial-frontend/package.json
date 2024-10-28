@@ -1,0 +1,31 @@
+{
+  "name": "blindsocial-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "openapi": "npx openapi --input http://127.0.0.1:8101/dev-api/v2/api-docs --output ./src/servers --request ./src/utils/request.ts",
+    "dev": "vite --host",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vavt/cm-extension": "^1.5.0",
+    "@vavt/v3-extension": "^1.3.1",
+    "axios": "^1.7.7",
+    "md-editor-v3": "^4.21.1",
+    "pinia": "^2.2.4",
+    "vue": "^3.5.12",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@arco-design/web-vue": "^2.56.2",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "openapi-typescript-codegen": "^0.29.0",
+    "sass": "^1.80.4",
+    "sass-loader": "^16.0.2",
+    "typescript": "~5.6.2",
+    "vite": "^5.4.9",
+    "vue-tsc": "^2.1.6"
+  }
+}
