@@ -1,8 +1,9 @@
 <template>
   <MdEditor
+    @on-upload-img="handleUploadImg"
     style="height: 100%"
     @on-change="props.onChange"
-    v-model="props.value"
+    :value="props.value"
     placeholder="请输入内容....."
   />
 </template>
@@ -14,6 +15,9 @@ interface Props {
   value: string;
   onChange: (v: string) => void;
 }
+const handleUploadImg = (img) => {
+  console.log(img);
+};
 const props = defineProps<Props>();
 </script>
 

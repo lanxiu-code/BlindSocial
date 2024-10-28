@@ -9,11 +9,15 @@
           @menu-item-click="switchTabs"
           :default-selected-keys="['/publish']"
         >
-          <a-menu-item class="nav-item" key="/home">首页</a-menu-item>
-          <a-menu-item class="nav-item" key="/publish">发布帖子</a-menu-item>
-          <a-menu-item class="nav-item" key="/discussion">讨论区</a-menu-item>
-          <a-menu-item class="nav-item" key="/message">消息</a-menu-item>
-          <a-menu-item class="nav-item" key="/account">我的</a-menu-item>
+          <a-menu-item class="nav-item" key="/home" v-read>首页</a-menu-item>
+          <a-menu-item class="nav-item" key="/publish" v-read
+            >发布帖子</a-menu-item
+          >
+          <a-menu-item class="nav-item" key="/discussion" v-read
+            >讨论区</a-menu-item
+          >
+          <a-menu-item class="nav-item" key="/message" v-read>消息</a-menu-item>
+          <a-menu-item class="nav-item" key="/account" v-read>我的</a-menu-item>
         </a-menu>
       </a-layout-sider>
       <a-layout-content class="content">

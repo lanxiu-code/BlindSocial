@@ -3,6 +3,8 @@ import axios from "axios";
 import type { ApiRequestOptions } from "./ApiRequestOptions";
 import { CancelablePromise } from "./CancelablePromise";
 import type { OpenAPIConfig } from "./OpenAPI";
+import router from "../../router";
+import { Message } from "@arco-design/web-vue";
 export enum ResponseCode {
   SUCCESS = 0,
   SYSTEM_ERROR = 50000,
@@ -49,8 +51,10 @@ axiosInstance.interceptors.response.use(
     // 对响应数据做点什么
     const data = response.data;
     if (data.code == ResponseCode.NOT_LOGIN_ERROR) {
+      router.push("/user/login");
     }
     if (data.code != ResponseCode.SUCCESS) {
+      Message.error(data.message);
     }
     return data;
   },
