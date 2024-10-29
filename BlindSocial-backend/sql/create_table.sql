@@ -33,6 +33,7 @@ create table if not exists post
     title      varchar(512)                       null comment '标题',
     description varchar(1024)                     null comment '描述',
     content    text                               null comment '内容',
+    image       varchar(1024)                     null comment '封面图片',
     tags       varchar(1024)                      null comment '标签列表（json 数组）',
     thumbNum   int      default 0                 not null comment '点赞数',
     favourNum  int      default 0                 not null comment '收藏数',

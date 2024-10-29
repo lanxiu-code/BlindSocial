@@ -7,7 +7,7 @@
           style="text-align: center"
           mode="vertical"
           @menu-item-click="switchTabs"
-          :default-selected-keys="[router.currentRoute.value.fullPath]"
+          :selected-keys="selectedKey"
         >
           <a-menu-item class="nav-item" key="/home" v-read>首页</a-menu-item>
           <a-menu-item class="nav-item" key="/publish" v-read
@@ -39,13 +39,19 @@
 <script setup>
 import GlobalHeader from "@/components/GlobalHeader/index.vue";
 import TopList from "@/components/TopList/index.vue";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 const selectedKey = ref("/home");
 const switchTabs = (path) => {
   router.push(path);
 };
+watch(
+  () => router.currentRoute.value.fullPath,
+  (val) => {
+    selectedKey.value = val;
+  }
+);
 </script>
 
 <style scoped lang="scss">

@@ -17,6 +17,12 @@ const routes = [
         meta: { title: "首页" },
       },
       {
+        path: "detail/:id",
+        name: "帖子详情",
+        component: import("@/views/detail/index.vue"),
+        meta: { title: "帖子详情" },
+      },
+      {
         path: "publish",
         name: "发布帖子",
         component: import("@/views/publish/index.vue"),

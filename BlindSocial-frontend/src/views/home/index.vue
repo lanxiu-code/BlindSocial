@@ -9,16 +9,43 @@
       <template #item="{ item }">
         <a-list-item class="list-demo-item" action-layout="vertical">
           <template #actions>
-            <span><icon-heart />{{ item.favourNum }}</span>
-            <span><icon-star />{{ item.thumbNum }}</span>
+            <!-- 点赞 -->
+            <span v-if="!item.hasThumb"
+              ><icon-heart @click="doThumb(item.id)" />{{ item.thumbNum }}</span
+            >
+            <span v-else
+              ><icon-heart-fill
+                style="color: red"
+                @click="doThumb(item.id)"
+              />{{ item.thumbNum }}</span
+            >
+            <!-- 收藏 -->
+            <span v-if="!item.hasFavour"
+              ><icon-star @click="doFavour(item.id)" />{{
+                item.favourNum
+              }}</span
+            >
+            <span v-else
+              ><icon-star-fill
+                style="color: skyblue"
+                @click="doFavour(item.id)"
+              />{{ item.favourNum }}</span
+            >
+
             <span><icon-message />Reply</span>
           </template>
           <template #extra>
             <div className="image-area">
-              <img alt="arco-design" :src="item.user.userAvatar" />
+              <img v-if="item.image" alt="arco-design" :src="item.image" />
+              <span v-else></span>
             </div>
           </template>
-          <a-list-item-meta :title="item.title" :description="item.description">
+          <a-list-item-meta
+            style="cursor: pointer"
+            @click="toDetail(item.id)"
+            :title="item.title"
+            :description="item.description"
+          >
             <template #avatar>
               <a-avatar shape="square">
                 <img alt="avatar" :src="item.user.userAvatar" />
@@ -33,9 +60,15 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
-import { PostControllerService, PostVO } from "../../servers";
+import {
+  PostControllerService,
+  PostFavourControllerService,
+  PostThumbControllerService,
+  PostVO,
+} from "../../servers";
 import { ResponseCode } from "../../servers/core/request";
 import PubSub from "pubsub-js";
+import router from "../../router";
 const searchParams = reactive({
   current: 1,
   pageSize: 4,
@@ -52,6 +85,36 @@ PubSub.subscribe("searchEvent", (msg, params) => {
   searchParams.title = params.title;
   loadPostData();
 });
+// 点赞
+const doThumb = async (id: number) => {
+  await PostThumbControllerService.doThumbUsingPost({ postId: id });
+  postsList.value = postsList.value.map((item) => {
+    if (item.id == id) {
+      const num = item.hasThumb ? -1 : 1;
+      return {
+        ...item,
+        hasThumb: !item.hasThumb,
+        thumbNum: (item.thumbNum as number) + num,
+      };
+    }
+    return item;
+  });
+};
+// 收藏
+const doFavour = async (id: number) => {
+  await PostFavourControllerService.doPostFavourUsingPost({ postId: id });
+  postsList.value = postsList.value.map((item) => {
+    if (item.id == id) {
+      const num = item.hasFavour ? -1 : 1;
+      return {
+        ...item,
+        hasFavour: !item.hasFavour,
+        favourNum: (item.favourNum as number) + num,
+      };
+    }
+    return item;
+  });
+};
 const loadPostData = async () => {
   const res = await PostControllerService.listPostVoByPageUsingPost(
     searchParams
@@ -60,6 +123,9 @@ const loadPostData = async () => {
     total.value = res.data.total;
     postsList.value = res.data.records;
   }
+};
+const toDetail = (id: string) => {
+  router.push(`/detail/${id}`);
 };
 onMounted(() => {
   loadPostData();

@@ -11,6 +11,7 @@ export type PostVO = {
     hasFavour?: boolean;
     hasThumb?: boolean;
     id?: number;
+    image?: string;
     tagList?: Array<string>;
     thumbNum?: number;
     title?: string;

@@ -10,6 +10,7 @@ import com.zsj.blindsocial.common.ResultUtils;
 import com.zsj.blindsocial.constant.UserConstant;
 import com.zsj.blindsocial.exception.BusinessException;
 import com.zsj.blindsocial.exception.ThrowUtils;
+import com.zsj.blindsocial.mapper.PostMapper;
 import com.zsj.blindsocial.model.dto.post.PostAddRequest;
 import com.zsj.blindsocial.model.dto.post.PostEditRequest;
 import com.zsj.blindsocial.model.dto.post.PostQueryRequest;
@@ -20,6 +21,7 @@ import com.zsj.blindsocial.model.vo.PostVO;
 import com.zsj.blindsocial.service.PostService;
 import com.zsj.blindsocial.service.UserService;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -47,8 +49,21 @@ public class PostController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private PostMapper postMapper;
     // region 增删改查
-
+    /*
+    * 获取top7列表
+    * */
+    @GetMapping("/list/top")
+    public BaseResponse<List<PostVO>> listTopPost(HttpServletRequest request) {
+        List<PostVO> postVOS = postMapper
+                .listTopPost()
+                .stream()
+                .map(post ->postService.getPostVO(post, request))
+                .collect(Collectors.toList());
+        return ResultUtils.success(postVOS);
+    }
     /**
      * 创建
      *

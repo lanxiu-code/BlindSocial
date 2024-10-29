@@ -86,10 +86,10 @@ wx:
 # todo 需替换配置
 cos:
   client:
-    accessKey: xx
-    secretKey: xxx
-    region: xx
-    bucket: xx
+    accessKey: AKIDsdBqjWCmP0dQ5XvCNOHoHnltDgCxOrUh
+    secretKey: RwU4Vdy1igfsN0jTGyX2Ro1BIF1gHlBW
+    region: ap-chengdu
+    bucket: blind-social-1330807864
 # 接口文档配置
 knife4j:
   enable: true

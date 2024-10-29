@@ -2,25 +2,26 @@
   <p style="text-align: center; font-size: 20px; font-weight: 500">
     热门文章TOP7
   </p>
-  <a-list class="list-layout" :bordered="false" :data="dataSource">
+  <a-list class="list-layout" :bordered="false" :data="topList">
     <template #item="{ item }">
       <a-list-item class="list-demo-item" action-layout="vertical">
         <a-row>
           <a-col :span="7">
-            <a-image :src="item.image" height="50" width="50"></a-image>
+            <a-image
+              :src="item.user.userAvatar"
+              height="50"
+              width="50"
+            ></a-image>
           </a-col>
           <a-col :span="17">
             <a-typography-text
+              @click="goToDetail(item.id)"
+              style="cursor: pointer"
               :ellipsis="{
                 rows: 2,
               }"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-              qui perspiciatis necessitatibus deleniti mollitia laboriosam,
-              perferendis rerum facilis voluptate iusto recusandae ex labore
-              odio rem adipisci voluptates alias dolorem nesciunt, consequatur
-              voluptas quaerat harum eum fugiat magnam. Accusamus aliquid est
-              totam nostrum? Saepe, modi dolore ullam id possimus perferendis a!
+              {{ item.title }}
             </a-typography-text>
           </a-col>
         </a-row>
@@ -30,28 +31,26 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
-
-const dataSource = reactive([
-  {
-    id: 1,
-    image:
-      "https://img2.baidu.com/it/u=2440185027,2853238687&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto",
-    title: "拉升阶段立法解释了的经历",
-  },
-  {
-    id: 1,
-    image:
-      "https://img2.baidu.com/it/u=2440185027,2853238687&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto",
-    title: "拉升阶段立法解释了的经历",
-  },
-  {
-    id: 1,
-    image:
-      "https://img2.baidu.com/it/u=2440185027,2853238687&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto",
-    title: "拉升阶段立法解释了的经历",
-  },
-]);
+import { onMounted, reactive, ref } from "vue";
+import { PostControllerService, PostVO } from "../../servers";
+import { ResponseCode } from "../../servers/core/request";
+import { useRoute, useRouter } from "vue-router";
+const topList = ref<PostVO[]>([]);
+const router = useRouter();
+const route = useRoute();
+const loadData = async () => {
+  const res = await PostControllerService.listTopPostUsingGet();
+  if (res.code == ResponseCode.SUCCESS) {
+    //@ts-ignore
+    topList.value = res.data;
+  }
+};
+const goToDetail = (id: any) => {
+  router.push(`/detail/${id}`);
+};
+onMounted(() => {
+  loadData();
+});
 </script>
 
 <style></style>

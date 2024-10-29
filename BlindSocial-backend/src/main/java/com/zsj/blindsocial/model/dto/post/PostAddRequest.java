@@ -21,6 +21,10 @@ public class PostAddRequest implements Serializable {
      * 描述
      * */
     private String description;
+    /*
+     * 封面图片
+     * */
+    private String image;
     /**
      * 内容
      */

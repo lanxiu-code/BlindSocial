@@ -8,6 +8,7 @@ export const useUserStore = defineStore("user", () => {
     const res = await UserControllerService.getLoginUserUsingGet();
     if (res.code == ResponseCode.SUCCESS) {
       Object.assign(currentUser, res.data);
+      localStorage.setItem("isLogin", "true");
     }
   };
   return {

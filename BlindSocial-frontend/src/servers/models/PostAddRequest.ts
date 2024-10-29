@@ -5,6 +5,7 @@
 export type PostAddRequest = {
     content?: string;
     description?: string;
+    image?: string;
     tags?: Array<string>;
     title?: string;
 };

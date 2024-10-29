@@ -3,6 +3,7 @@ import axios from "axios";
 import type { ApiRequestOptions } from "./ApiRequestOptions";
 import { CancelablePromise } from "./CancelablePromise";
 import type { OpenAPIConfig } from "./OpenAPI";
+import { Message } from "@arco-design/web-vue";
 export enum ResponseCode {
   SUCCESS = 0,
   SYSTEM_ERROR = 50000,
@@ -29,12 +30,12 @@ const axiosInstance = axios.create({
   // Your custom Axios instance config
   baseURL: "http://127.0.0.1:8101",
   timeout: 3000,
+  withCredentials: true,
 });
 // 添加请求拦截器
 axiosInstance.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
-
     return config;
   },
   function (error) {
@@ -49,8 +50,10 @@ axiosInstance.interceptors.response.use(
     // 对响应数据做点什么
     const data = response.data;
     if (data.code == ResponseCode.NOT_LOGIN_ERROR) {
-    }
-    if (data.code != ResponseCode.SUCCESS) {
+      Message.error(data.messagge);
+      window.location.href = "/#/user/login";
+    } else if (data.code != ResponseCode.SUCCESS) {
+      Message.error(data.messagge);
     }
     return data;
   },
@@ -78,6 +81,7 @@ export const request = <T>(
         url,
         data: options.body,
         method: options.method,
+        params: options.query,
         headers: { ...options.headers },
       })
       .then((data) => {

@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BaseResponse_boolean_ } from '../models/BaseResponse_boolean_';
+import type { BaseResponse_List_PostVO_ } from '../models/BaseResponse_List_PostVO_';
 import type { BaseResponse_long_ } from '../models/BaseResponse_long_';
 import type { BaseResponse_Page_Post_ } from '../models/BaseResponse_Page_Post_';
 import type { BaseResponse_Page_PostVO_ } from '../models/BaseResponse_Page_PostVO_';
@@ -136,6 +137,22 @@ export class PostControllerService {
             method: 'POST',
             url: '/dev-api/post/list/page/vo',
             body: postQueryRequest,
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
+     * listTopPost
+     * @returns BaseResponse_List_PostVO_ OK
+     * @throws ApiError
+     */
+    public static listTopPostUsingGet(): CancelablePromise<BaseResponse_List_PostVO_> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/dev-api/post/list/top',
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,
