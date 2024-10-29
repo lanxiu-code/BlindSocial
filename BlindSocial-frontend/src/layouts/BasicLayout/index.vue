@@ -40,18 +40,22 @@
 import GlobalHeader from "@/components/GlobalHeader/index.vue";
 import TopList from "@/components/TopList/index.vue";
 import { onMounted, reactive, ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const router = useRouter();
+const route = useRoute();
 const selectedKey = ref("/home");
 const switchTabs = (path) => {
   router.push(path);
 };
 watch(
-  () => router.currentRoute.value.fullPath,
+  () => route.fullPath,
   (val) => {
     selectedKey.value = val;
   }
 );
+onMounted(() => {
+  selectedKey.value = route.fullPath;
+});
 </script>
 
 <style scoped lang="scss">

@@ -4,6 +4,7 @@ import type { ApiRequestOptions } from "./ApiRequestOptions";
 import { CancelablePromise } from "./CancelablePromise";
 import type { OpenAPIConfig } from "./OpenAPI";
 import { Message } from "@arco-design/web-vue";
+import { useRoute } from "vue-router";
 export enum ResponseCode {
   SUCCESS = 0,
   SYSTEM_ERROR = 50000,
@@ -49,7 +50,11 @@ axiosInstance.interceptors.response.use(
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
     const data = response.data;
-    if (data.code == ResponseCode.NOT_LOGIN_ERROR) {
+
+    if (
+      data.code == ResponseCode.NOT_LOGIN_ERROR &&
+      !window.location.hash.includes("/login")
+    ) {
       Message.error(data.messagge);
       window.location.href = "/#/user/login";
     } else if (data.code != ResponseCode.SUCCESS) {

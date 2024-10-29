@@ -28,6 +28,12 @@ const routes = [
         component: import("@/views/publish/index.vue"),
         meta: { title: "发布帖子" },
       },
+      {
+        path: "account",
+        name: "我的",
+        component: import("@/views/account/index.vue"),
+        meta: { title: "我的" },
+      },
     ],
   },
   {
