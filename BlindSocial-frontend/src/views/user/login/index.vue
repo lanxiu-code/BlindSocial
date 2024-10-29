@@ -38,7 +38,9 @@
       <a-form-item>
         <a-row justify="space-between" align="center" style="width: 100%">
           <a-col :span="11">
-            <a-button style="width: 100%" type="primary">登录</a-button>
+            <a-button html-type="submit" style="width: 100%" type="primary"
+              >登录</a-button
+            >
           </a-col>
           <a-col :span="11">
             <a-button
@@ -56,9 +58,27 @@
 
 <script setup>
 import { reactive, ref } from "vue";
+import { UserControllerService } from "@/servers";
+import { ResponseCode } from "../../../servers/core/request";
+import { Message } from "@arco-design/web-vue";
+import { useUserStore } from "../../../store/user";
+import router from "../../../router";
 const visibility = ref(true);
-const loginData = reactive({});
-const handleSubmit = () => {};
+const userStore = useUserStore();
+const loginData = reactive({
+  userAccount: "lanxiu",
+  userPassword: "12345678",
+});
+const handleSubmit = async (data) => {
+  let res = await UserControllerService.userLoginUsingPost(data.values);
+  console.log(res);
+  if (res.code == ResponseCode.SUCCESS) {
+    // 设置用户信息
+    userStore.currentUser = res.data;
+    Message.success("登录成功");
+    router.push("/home");
+  }
+};
 </script>
 
 <style lang="scss" scoped>

@@ -86,10 +86,10 @@ wx:
 # todo 需替换配置
 cos:
   client:
-    accessKey: xxx
+    accessKey: xx
     secretKey: xxx
-    region: xxx
-    bucket: xxx
+    region: xx
+    bucket: xx
 # 接口文档配置
 knife4j:
   enable: true

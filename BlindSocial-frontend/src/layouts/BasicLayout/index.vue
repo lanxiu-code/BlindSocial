@@ -7,7 +7,7 @@
           style="text-align: center"
           mode="vertical"
           @menu-item-click="switchTabs"
-          :default-selected-keys="['/publish']"
+          :default-selected-keys="[router.currentRoute.value.fullPath]"
         >
           <a-menu-item class="nav-item" key="/home" v-read>首页</a-menu-item>
           <a-menu-item class="nav-item" key="/publish" v-read
@@ -31,64 +31,18 @@
           box-sizing: border-box;
         "
       >
-        <p style="text-align: center; font-size: 20px; font-weight: 500">
-          热门文章TOP7
-        </p>
-        <a-list class="list-layout" :bordered="false" :data="dataSource">
-          <template #item="{ item }">
-            <a-list-item class="list-demo-item" action-layout="vertical">
-              <a-row>
-                <a-col :span="7">
-                  <a-image :src="item.image" height="50" width="50"></a-image>
-                </a-col>
-                <a-col :span="17">
-                  <a-typography-text
-                    :ellipsis="{
-                      rows: 2,
-                    }"
-                  >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quisquam qui perspiciatis necessitatibus deleniti mollitia
-                    laboriosam, perferendis rerum facilis voluptate iusto
-                    recusandae ex labore odio rem adipisci voluptates alias
-                    dolorem nesciunt, consequatur voluptas quaerat harum eum
-                    fugiat magnam. Accusamus aliquid est totam nostrum? Saepe,
-                    modi dolore ullam id possimus perferendis a!
-                  </a-typography-text>
-                </a-col>
-              </a-row>
-            </a-list-item>
-          </template>
-        </a-list>
+        <TopList />
       </a-layout-sider>
     </a-layout>
   </div>
 </template>
 <script setup>
 import GlobalHeader from "@/components/GlobalHeader/index.vue";
-import { reactive } from "vue";
+import TopList from "@/components/TopList/index.vue";
+import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
-const dataSource = reactive([
-  {
-    id: 1,
-    image:
-      "https://img2.baidu.com/it/u=2440185027,2853238687&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto",
-    title: "拉升阶段立法解释了的经历",
-  },
-  {
-    id: 1,
-    image:
-      "https://img2.baidu.com/it/u=2440185027,2853238687&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto",
-    title: "拉升阶段立法解释了的经历",
-  },
-  {
-    id: 1,
-    image:
-      "https://img2.baidu.com/it/u=2440185027,2853238687&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto",
-    title: "拉升阶段立法解释了的经历",
-  },
-]);
+const selectedKey = ref("/home");
 const switchTabs = (path) => {
   router.push(path);
 };
@@ -105,11 +59,16 @@ const switchTabs = (path) => {
       margin: 40px 0;
     }
     .content {
-      padding: 20px;
+      padding: 50px;
       box-sizing: border-box;
       background: white;
       margin: 0 30px;
       border-radius: 10px;
+      &::-webkit-scrollbar {
+        width: 5px;
+        height: 8px;
+        background-color: pink; /* or add it to the track */
+      }
     }
     .list-layout .image-area {
       width: 183px;

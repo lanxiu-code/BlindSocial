@@ -44,14 +44,11 @@ public class FileController {
      * 文件上传
      *
      * @param multipartFile
-     * @param uploadFileRequest
      * @param request
      * @return
      */
     @PostMapping("/upload")
-    public BaseResponse<String> uploadFile(@RequestPart("file") MultipartFile multipartFile,
-            UploadFileRequest uploadFileRequest, HttpServletRequest request) {
-        String biz = uploadFileRequest.getBiz();
+    public BaseResponse<String> uploadFile(@RequestPart("file") MultipartFile multipartFile,String biz, HttpServletRequest request) {
         FileUploadBizEnum fileUploadBizEnum = FileUploadBizEnum.getEnumByValue(biz);
         if (fileUploadBizEnum == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);

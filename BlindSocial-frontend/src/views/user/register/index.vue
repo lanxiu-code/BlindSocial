@@ -14,7 +14,7 @@
       layout="vertical"
       class="a-form"
       size="large"
-      :model="loginData"
+      :model="registerData"
       @submit="handleSubmit"
     >
       <a-form-item
@@ -22,7 +22,7 @@
         tooltip="Please enter username"
         label="账号"
       >
-        <a-input v-model="loginData.userAccount" placeholder="请输入账号" />
+        <a-input v-model="registerData.userAccount" placeholder="请输入账号" />
       </a-form-item>
       <a-form-item
         field="userPassword"
@@ -30,7 +30,7 @@
         label="密码"
       >
         <a-input-password
-          v-model="loginData.userPassword"
+          v-model="registerData.userPassword"
           v-model:visibility="visibility"
           placeholder="请输入密码"
           allow-clear
@@ -42,7 +42,7 @@
         label="确认密码"
       >
         <a-input-password
-          v-model="loginData.checkPassword"
+          v-model="registerData.checkPassword"
           v-model:visibility="visibility"
           placeholder="确认密码"
           allow-clear
@@ -50,7 +50,9 @@
       </a-form-item>
       <a-form-item>
         <a-space direction="vertical" style="width: 100%; text-align: right">
-          <a-button style="width: 100%" type="primary">确认</a-button>
+          <a-button style="width: 100%" type="primary" html-type="submit"
+            >确认</a-button
+          >
           <a-link href="/#/user/login">有账号，去登陆</a-link>
         </a-space>
       </a-form-item>
@@ -58,11 +60,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from "vue";
+import { UserControllerService, UserRegisterRequest } from "../../../servers";
+import { ResponseCode } from "../../../servers/core/request";
+import { Message } from "@arco-design/web-vue";
+import router from "../../../router";
 const visibility = ref(true);
-const loginData = reactive({});
-const handleSubmit = () => {};
+const registerData: UserRegisterRequest = reactive({});
+const handleSubmit = async (data: any) => {
+  const res = await UserControllerService.userRegisterUsingPost(data.values);
+  if (res.code == ResponseCode.SUCCESS) {
+    // 设置用户信息
+    Message.success("注册成功");
+    router.replace("/user/login");
+  }
+};
 </script>
 
 <style lang="scss" scoped>

@@ -20,6 +20,9 @@ dependencies:
   pinia:
     specifier: ^2.2.4
     version: 2.2.4(typescript@5.6.3)(vue@3.5.12)
+  pubsub-js:
+    specifier: ^1.9.5
+    version: 1.9.5
   vue:
     specifier: ^3.5.12
     version: 3.5.12(typescript@5.6.3)
@@ -31,6 +34,9 @@ devDependencies:
   '@arco-design/web-vue':
     specifier: ^2.56.2
     version: 2.56.2(vue@3.5.12)
+  '@types/pubsub-js':
+    specifier: ^1.8.6
+    version: 1.8.6
   '@vitejs/plugin-vue':
     specifier: ^5.1.4
     version: 5.1.4(vite@5.4.10)(vue@3.5.12)
@@ -1066,6 +1072,10 @@ packages:
     resolution: {integrity: sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg==}
     dev: false
 
+  /@types/pubsub-js@1.8.6:
+    resolution: {integrity: sha512-Kwug5cwV0paUDm/NfwDx1sp9xI0bGIvmWJjJWCU8NngkCCMt3EIC7oPDvb6fV7BR8kPpFyyBu4D11bda/2MdPA==}
+    dev: true
+
   /@types/raf@3.4.3:
     resolution: {integrity: sha512-c4YAvMedbPZ5tEyxzQdMoOhhJ4RD3rngZIdwC2/qDN3d7JpEhB6fiBRKVY1lg5B7Wk+uPBjn5f39j1/2MY1oOw==}
     requiresBuild: true
@@ -1778,6 +1788,10 @@ packages:
 
   /proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
+    dev: false
+
+  /pubsub-js@1.9.5:
+    resolution: {integrity: sha512-5MZ0I9i5JWVO7SizvOviKvZU2qaBbl2KQX150FAA+fJBwYpwOUId7aNygURWSdPzlsA/xZ/InUKXqBbzM0czTA==}
     dev: false
 
   /punycode.js@2.3.1:

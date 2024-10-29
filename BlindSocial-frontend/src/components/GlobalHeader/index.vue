@@ -13,17 +13,21 @@
         />
       </a-col>
       <a-col :span="8">
-        <a-input-search size="large" placeholder="搜索文章" />
+        <a-input-search
+          size="large"
+          @search="onSearch"
+          placeholder="搜索文章"
+        />
       </a-col>
       <a-col :span="2">
         <a-space>
           <icon-notification size="20" />
-          <a-avatar :size="50">
-            <img
-              src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
-              alt=""
-            />
+          <a-avatar :size="50" v-if="currentUser?.id">
+            <img :src="currentUser.userAvatar" />
           </a-avatar>
+          <a-typography-text style="cursor: pointer" v-else @click="toLogin"
+            >未登录</a-typography-text
+          >
         </a-space>
       </a-col>
     </a-row>
@@ -31,9 +35,24 @@
 </template>
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { useUserStore } from "../../store/user";
+import { computed, reactive, ref, watch } from "vue";
+import { LoginUserVO, PostControllerService } from "../../servers";
+import PubSub from "pubsub-js";
+const searchParams = reactive({
+  title: "",
+});
 const router = useRouter();
-const switchTabs = (key: string) => {
-  router.push(key);
+const userStore = useUserStore();
+const currentUser = computed<LoginUserVO>(() => userStore.currentUser);
+
+const toLogin = () => {
+  router.replace("/user/login");
+};
+const onSearch = (value: string) => {
+  searchParams.title = value;
+  // 向首页发布搜索事件
+  PubSub.publish("searchEvent", searchParams);
 };
 </script>
 <style lang="scss" scoped>
