@@ -9,27 +9,36 @@
     <template #item="{ item }">
       <a-list-item class="list-demo-item" action-layout="vertical">
         <template #actions>
-          <!-- 点赞 -->
-          <span v-if="!item.hasThumb"
-            ><icon-heart @click="doThumb(item.id)" />{{ item.thumbNum }}</span
-          >
-          <span v-else
-            ><icon-heart-fill style="color: red" @click="doThumb(item.id)" />{{
-              item.thumbNum
-            }}</span
-          >
-          <!-- 收藏 -->
-          <span v-if="!item.hasFavour"
-            ><icon-star @click="doFavour(item.id)" />{{ item.favourNum }}</span
-          >
-          <span v-else
-            ><icon-star-fill
-              style="color: skyblue"
-              @click="doFavour(item.id)"
-            />{{ item.favourNum }}</span
-          >
+          <span v-read :data-text="`点赞`">
+            <!-- 点赞 -->
+            <span v-if="!item.hasThumb"
+              ><icon-heart @click="doThumb(item.id)" />{{ item.thumbNum }}</span
+            >
+            <span v-else
+              ><icon-heart-fill
+                style="color: red"
+                @click="doThumb(item.id)"
+              />{{ item.thumbNum }}</span
+            >
+          </span>
+          <span v-read :data-text="`收藏`">
+            <!-- 收藏 -->
+            <span v-if="!item.hasFavour"
+              ><icon-star @click="doFavour(item.id)" />{{
+                item.favourNum
+              }}</span
+            >
+            <span v-else
+              ><icon-star-fill
+                style="color: skyblue"
+                @click="doFavour(item.id)"
+              />{{ item.favourNum }}</span
+            >
+          </span>
 
-          <span @click="toDetail(item.id)"><icon-message />评论</span>
+          <span v-read :data-text="`评论`" @click="toDetail(item.id)"
+            ><icon-message />评论</span
+          >
           <a-space>
             <a-tag
               v-for="(tag, index) in item.tagList"
@@ -46,6 +55,8 @@
           </div>
         </template>
         <a-list-item-meta
+          v-read
+          :data-text="`链接文章${item.title}${item.description}`"
           style="cursor: pointer"
           @click="toDetail(item.id)"
           :title="item.title"

@@ -1,6 +1,6 @@
 <template>
   <div class="publishPage">
-    <a-row align="center">
+    <a-row align="center" v-read data-text="输入标题">
       <a-col :span="2">
         <a-typography-text>标题</a-typography-text>
       </a-col>
@@ -13,7 +13,12 @@
         />
       </a-col>
     </a-row>
-    <a-row style="margin: 20px 0" align="center">
+    <a-row
+      style="margin: 20px 0"
+      align="center"
+      v-read
+      data-text="输入文章描述"
+    >
       <a-col :span="2">
         <a-typography-text>描述</a-typography-text>
       </a-col>
@@ -25,7 +30,7 @@
         />
       </a-col>
     </a-row>
-    <a-row style="margin: 20px 0" align="center">
+    <a-row style="margin: 20px 0" align="center" v-read data-text="输入标签">
       <a-col :span="2">
         <a-typography-text>标签</a-typography-text>
       </a-col>
@@ -40,12 +45,14 @@
       </a-col>
     </a-row>
     <a-row style="margin: 20px 0" align="center">
-      <a-col :span="2">
+      <a-col :span="2" v-read data-text="输入话题">
         <a-typography-text>话题</a-typography-text>
       </a-col>
       <a-col :span="15">
         <a-radio-group type="button" @change="topicChange">
           <a-radio
+            v-read
+            :data-text="topic.name"
             :value="topic.name"
             v-for="(topic, index) in topicsList"
             :key="index"
@@ -54,9 +61,21 @@
         </a-radio-group>
       </a-col>
     </a-row>
-    <MdEditor :value="postData.content" :onChange="onChange" />
+    <MdEditor
+      v-read
+      data-text="输入文章内容"
+      :value="postData.content"
+      :onChange="onChange"
+    />
     <a-row align="center" style="margin: 20px" justify="end">
-      <a-button type="primary" size="large" @click="doPublish">发布</a-button>
+      <a-button
+        type="primary"
+        size="large"
+        @click="doPublish"
+        v-read
+        data-text="发布文章"
+        >发布</a-button
+      >
     </a-row>
   </div>
 </template>

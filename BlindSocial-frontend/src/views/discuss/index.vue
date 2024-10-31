@@ -1,11 +1,15 @@
 <template>
   <div class="discuss">
     <a-row>
-      <a-typography-title :heading="3">浏览话题</a-typography-title>
+      <a-typography-title :heading="3" v-read data-text="浏览话题"
+        >浏览话题</a-typography-title
+      >
     </a-row>
     <a-scrollbar style="height: 80px; overflow: auto">
       <a-space size="large">
         <a-tag
+          v-read
+          :data-text="topic.name"
           style="width: 100px; height: 50px; text-align: center"
           v-for="(topic, index) in topicsList"
           :key="index"
@@ -24,6 +28,8 @@
         <a-space size="large">
           <template v-if="topicPostMap.get(topic.name)?.length">
             <TopicCard
+              v-read
+              :data-text="`链接${topic.name}话题${item.title}${item.description}`"
               :key="item.id"
               v-for="item in topicPostMap.get(topic.name)?.slice(0, 4)"
               :data="item"
@@ -35,7 +41,12 @@
         </a-space>
       </a-scrollbar>
       <a-collapse :default-active-key="[1]" :bordered="false" accordion>
-        <a-collapse-item header="查看更多" key="1">
+        <a-collapse-item
+          header="查看更多"
+          key="1"
+          v-read
+          data-text="点击查看更多"
+        >
           <div class="more">
             <template v-if="topicPostMap.get(topic.name)?.length">
               <TopicCard

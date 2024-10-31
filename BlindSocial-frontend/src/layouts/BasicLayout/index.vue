@@ -9,15 +9,37 @@
           @menu-item-click="switchTabs"
           :selected-keys="selectedKey"
         >
-          <a-menu-item class="nav-item" key="/home" v-read>首页</a-menu-item>
-          <a-menu-item class="nav-item" key="/publish" v-read
+          <a-menu-item class="nav-item" key="/home" data-text="导航首页" v-read
+            >首页</a-menu-item
+          >
+          <a-menu-item
+            class="nav-item"
+            key="/publish"
+            data-text="导航发布帖子"
+            v-read
             >发布帖子</a-menu-item
           >
-          <a-menu-item class="nav-item" key="/discuss" v-read
+          <a-menu-item
+            class="nav-item"
+            key="/discuss"
+            data-text="导航讨论区"
+            v-read
             >讨论区</a-menu-item
           >
-          <a-menu-item class="nav-item" key="/message" v-read>消息</a-menu-item>
-          <a-menu-item class="nav-item" key="/account" v-read>我的</a-menu-item>
+          <a-menu-item
+            class="nav-item"
+            key="/message"
+            data-text="导航消息"
+            v-read
+            >消息</a-menu-item
+          >
+          <a-menu-item
+            class="nav-item"
+            key="/account"
+            data-text="导航我的"
+            v-read
+            >我的</a-menu-item
+          >
         </a-menu>
       </a-layout-sider>
       <a-layout-content class="content">

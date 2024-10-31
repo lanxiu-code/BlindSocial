@@ -9,12 +9,19 @@ function readText(text: string) {
   // 开始朗读
   synth.speak(utterance);
 }
+
 export default function (app: any) {
   app.directive("read", {
     mounted(el: HTMLElement) {
-      let text = el.innerText;
+      const data = el.getAttribute("data-text") || "";
       el.addEventListener("mouseover", () => {
-        readText(text);
+        readText(data);
+      });
+      el.addEventListener("focusin", () => {
+        readText(data);
+      });
+      el.addEventListener("mouseleave", () => {
+        synth.pause();
       });
     },
   });

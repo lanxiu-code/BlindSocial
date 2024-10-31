@@ -25,6 +25,7 @@ const total = ref(0);
 const postsList = ref<PostVO[]>([]);
 const paginationProps = reactive({
   defaultPageSize: 4,
+  current: searchParams.current,
   total,
 });
 // 监听搜索数据
@@ -40,6 +41,7 @@ const updatePostList = (list: PostVO[]) => {
 // 页码变化
 const handlePageChange = (page: number) => {
   searchParams.current = page;
+  paginationProps.current = searchParams.current;
 };
 
 const loadPostData = async () => {
@@ -51,10 +53,7 @@ const loadPostData = async () => {
     postsList.value = res.data.records;
   }
 };
-watch(
-  () => searchParams.current,
-  () => loadPostData
-);
+watch(() => searchParams.current, loadPostData);
 onMounted(() => {
   loadPostData();
 });

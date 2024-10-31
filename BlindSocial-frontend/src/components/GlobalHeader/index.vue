@@ -14,6 +14,8 @@
       </a-col>
       <a-col :span="8">
         <a-input-search
+          v-read
+          data-text="搜索文章"
           size="large"
           @search="onSearch"
           placeholder="搜索文章"
