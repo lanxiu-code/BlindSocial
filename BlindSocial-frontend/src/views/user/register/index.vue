@@ -53,7 +53,7 @@
           <a-button style="width: 100%" type="primary" html-type="submit"
             >确认</a-button
           >
-          <a-link href="/#/user/login">有账号，去登陆</a-link>
+          <a-link href="/user/login">有账号，去登陆</a-link>
         </a-space>
       </a-form-item>
     </a-form>

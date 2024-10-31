@@ -8,5 +8,6 @@ export type PostAddRequest = {
     image?: string;
     tags?: Array<string>;
     title?: string;
+    topic?: string;
 };
 

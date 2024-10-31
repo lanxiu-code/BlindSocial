@@ -2,7 +2,7 @@
   <div class="publishPage">
     <a-row align="center">
       <a-col :span="2">
-        <a-typography-text>文章标题</a-typography-text>
+        <a-typography-text>标题</a-typography-text>
       </a-col>
       <a-col :span="15">
         <a-input
@@ -15,7 +15,7 @@
     </a-row>
     <a-row style="margin: 20px 0" align="center">
       <a-col :span="2">
-        <a-typography-text>文章描述</a-typography-text>
+        <a-typography-text>描述</a-typography-text>
       </a-col>
       <a-col :span="15">
         <a-input
@@ -27,7 +27,7 @@
     </a-row>
     <a-row style="margin: 20px 0" align="center">
       <a-col :span="2">
-        <a-typography-text>文章标签</a-typography-text>
+        <a-typography-text>标签</a-typography-text>
       </a-col>
       <a-col :span="15">
         <a-input-tag
@@ -37,6 +37,21 @@
           placeholder="请输入标签"
           allow-clear
         />
+      </a-col>
+    </a-row>
+    <a-row style="margin: 20px 0" align="center">
+      <a-col :span="2">
+        <a-typography-text>话题</a-typography-text>
+      </a-col>
+      <a-col :span="15">
+        <a-radio-group type="button" @change="topicChange">
+          <a-radio
+            :value="topic.name"
+            v-for="(topic, index) in topicsList"
+            :key="index"
+            >{{ topic.name }}</a-radio
+          >
+        </a-radio-group>
       </a-col>
     </a-row>
     <MdEditor :value="postData.content" :onChange="onChange" />
@@ -51,7 +66,13 @@
 import MdEditor from "@/components/MdEditor/index.vue";
 import PubSub from "pubsub-js";
 import { onMounted, reactive, ref } from "vue";
-import { PostAddRequest, PostControllerService, PostVO } from "../../servers";
+import {
+  PostAddRequest,
+  PostControllerService,
+  PostVO,
+  TopicsControllerService,
+  TopicsVO,
+} from "../../servers";
 import { ResponseCode } from "../../servers/core/request";
 import { Message } from "@arco-design/web-vue";
 import router from "../../router";
@@ -59,8 +80,12 @@ import { useUserStore } from "../../store/user";
 const tags = ref([]);
 const userStore = useUserStore();
 const postData: PostAddRequest = reactive({});
+const topicsList: any = ref<TopicsVO[]>([]);
 const onChange = (val: string) => {
   postData.content = val;
+};
+const topicChange: any = (val: any) => {
+  postData.topic = val;
 };
 const doPublish = async () => {
   postData.tags = tags.value;
@@ -77,8 +102,20 @@ PubSub.subscribe("addPostImgEvent", (msg, img: string) => {
   }
   postData.content += `![](${img})`;
 });
+
+// 获取话题
+const loadTopicsList = async () => {
+  const res = await TopicsControllerService.listTopicsVoByPageUsingPost({
+    current: 1,
+    pageSize: 20,
+  });
+  if (res.code == ResponseCode.SUCCESS) {
+    topicsList.value = res.data.records;
+  }
+};
 onMounted(async () => {
   await userStore.getCurrentUser();
+  await loadTopicsList();
 });
 </script>
 

@@ -1,8 +1,13 @@
 package com.zsj.blindsocial.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsj.blindsocial.model.entity.PostThumb;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zsj.blindsocial.model.entity.User;
+import com.zsj.blindsocial.model.vo.PostFavourVO;
+import com.zsj.blindsocial.model.vo.PostThumbVO;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 帖子点赞服务
@@ -29,4 +34,6 @@ public interface PostThumbService extends IService<PostThumb> {
      * @return
      */
     int doPostThumbInner(long userId, long postId);
+
+    Page<PostThumbVO> getPostThumbVOPage(Page<PostThumb> thumbPage, HttpServletRequest request);
 }

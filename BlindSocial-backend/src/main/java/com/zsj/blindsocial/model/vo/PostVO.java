@@ -27,6 +27,10 @@ public class PostVO implements Serializable {
      */
     private String title;
     /*
+     * 话题
+     * */
+    private String topic;
+    /*
      * 描述
      * */
     private String description;

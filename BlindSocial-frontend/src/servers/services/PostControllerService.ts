@@ -81,6 +81,27 @@ export class PostControllerService {
         });
     }
     /**
+     * listFavourPostVOByPage
+     * @param postQueryRequest postQueryRequest
+     * @returns BaseResponse_Page_PostVO_ OK
+     * @returns any Created
+     * @throws ApiError
+     */
+    public static listFavourPostVoByPageUsingPost(
+        postQueryRequest: PostQueryRequest,
+    ): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/dev-api/post/favour/list/page/vo',
+            body: postQueryRequest,
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
      * getPostVOById
      * @param id id
      * @returns BaseResponse_PostVO_ OK
@@ -194,6 +215,27 @@ export class PostControllerService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/dev-api/post/search/page/vo',
+            body: postQueryRequest,
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
+     * listThumbPostVOByPage
+     * @param postQueryRequest postQueryRequest
+     * @returns BaseResponse_Page_PostVO_ OK
+     * @returns any Created
+     * @throws ApiError
+     */
+    public static listThumbPostVoByPageUsingPost(
+        postQueryRequest: PostQueryRequest,
+    ): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/dev-api/post/thumb/list/page/vo',
             body: postQueryRequest,
             errors: {
                 401: `Unauthorized`,

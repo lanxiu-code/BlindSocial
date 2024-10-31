@@ -4,7 +4,6 @@ import type { ApiRequestOptions } from "./ApiRequestOptions";
 import { CancelablePromise } from "./CancelablePromise";
 import type { OpenAPIConfig } from "./OpenAPI";
 import { Message } from "@arco-design/web-vue";
-import { useRoute } from "vue-router";
 export enum ResponseCode {
   SUCCESS = 0,
   SYSTEM_ERROR = 50000,
@@ -55,10 +54,11 @@ axiosInstance.interceptors.response.use(
       data.code == ResponseCode.NOT_LOGIN_ERROR &&
       !window.location.hash.includes("/login")
     ) {
-      Message.error(data.messagge);
-      window.location.href = "/#/user/login";
+      window.localStorage.setItem("isLogin", "false");
+      Message.error({ content: data.message });
+      window.location.href = "/user/login";
     } else if (data.code != ResponseCode.SUCCESS) {
-      Message.error(data.messagge);
+      Message.error({ content: data.message });
     }
     return data;
   },

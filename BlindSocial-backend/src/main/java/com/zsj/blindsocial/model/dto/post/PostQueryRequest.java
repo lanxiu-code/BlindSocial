@@ -35,7 +35,10 @@ public class PostQueryRequest extends PageRequest implements Serializable {
      * 标题
      */
     private String title;
-
+    /*
+    * 话题
+    * */
+    private String topic;
     /**
      * 内容
      */

@@ -13,7 +13,7 @@
           <a-menu-item class="nav-item" key="/publish" v-read
             >发布帖子</a-menu-item
           >
-          <a-menu-item class="nav-item" key="/discussion" v-read
+          <a-menu-item class="nav-item" key="/discuss" v-read
             >讨论区</a-menu-item
           >
           <a-menu-item class="nav-item" key="/message" v-read>消息</a-menu-item>
@@ -69,7 +69,7 @@ onMounted(() => {
       margin: 40px 0;
     }
     .content {
-      padding: 50px;
+      padding: 20px;
       box-sizing: border-box;
       background: white;
       margin: 0 30px;

@@ -1,19 +1,31 @@
 package com.zsj.blindsocial.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsj.blindsocial.common.ErrorCode;
 import com.zsj.blindsocial.exception.BusinessException;
 import com.zsj.blindsocial.mapper.PostThumbMapper;
 import com.zsj.blindsocial.model.entity.Post;
 import com.zsj.blindsocial.model.entity.PostThumb;
+import com.zsj.blindsocial.model.entity.PostThumb;
 import com.zsj.blindsocial.model.entity.User;
+import com.zsj.blindsocial.model.vo.PostThumbVO;
+import com.zsj.blindsocial.model.vo.PostVO;
 import com.zsj.blindsocial.service.PostService;
 import com.zsj.blindsocial.service.PostThumbService;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import com.zsj.blindsocial.service.UserService;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 帖子点赞服务实现
@@ -27,7 +39,8 @@ public class PostThumbServiceImpl extends ServiceImpl<PostThumbMapper, PostThumb
 
     @Resource
     private PostService postService;
-
+    @Resource
+    private UserService userService;
     /**
      * 点赞
      *
@@ -96,6 +109,29 @@ public class PostThumbServiceImpl extends ServiceImpl<PostThumbMapper, PostThumb
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR);
             }
         }
+    }
+
+    @Override
+    public Page<PostThumbVO> getPostThumbVOPage(Page<PostThumb> thumbPage, HttpServletRequest request) {
+        List<PostThumb> thumbs = thumbPage.getRecords();
+        if (CollUtil.isEmpty(thumbs)){
+            return null;
+        }
+        Page<PostThumbVO> thumbVOPage = new Page<>(thumbPage.getCurrent(), thumbPage.getSize(), thumbPage.getTotal());
+        List<PostThumbVO> postThumbVOS = thumbs.stream().map(item -> {
+            PostThumbVO thumbVO = new PostThumbVO();
+            BeanUtil.copyProperties(item, thumbVO);
+            Long postId = item.getPostId();
+            Post post = postService.getById(postId);
+            thumbVO.setPostVO(PostVO.objToVo(post));
+            Long userId = item.getUserId();
+            User user = userService.getById(userId);
+            thumbVO.setUserVO(userService.getUserVO(user));
+            thumbVO.setType("点赞");
+            return thumbVO;
+        }).collect(Collectors.toList());
+        thumbVOPage.setRecords(postThumbVOS);
+        return thumbVOPage;
     }
 
 }

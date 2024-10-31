@@ -29,7 +29,7 @@
             />{{ item.favourNum }}</span
           >
 
-          <span><icon-message />评论</span>
+          <span @click="toDetail(item.id)"><icon-message />评论</span>
           <a-space>
             <a-tag
               v-for="(tag, index) in item.tagList"

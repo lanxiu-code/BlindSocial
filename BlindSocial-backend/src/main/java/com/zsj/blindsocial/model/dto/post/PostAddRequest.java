@@ -25,6 +25,10 @@ public class PostAddRequest implements Serializable {
      * 封面图片
      * */
     private String image;
+    /*
+     * 话题
+     * */
+    private String topic;
     /**
      * 内容
      */

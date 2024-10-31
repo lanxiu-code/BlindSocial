@@ -1,4 +1,8 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from "vue-router";
 const routes = [
   {
     path: "/",
@@ -23,10 +27,22 @@ const routes = [
         meta: { title: "帖子详情" },
       },
       {
+        path: "discuss",
+        name: "讨论区",
+        component: import("@/views/discuss/index.vue"),
+        meta: { title: "讨论区" },
+      },
+      {
         path: "publish",
         name: "发布帖子",
         component: import("@/views/publish/index.vue"),
         meta: { title: "发布帖子" },
+      },
+      {
+        path: "message",
+        name: "消息",
+        component: import("@/views/message/index.vue"),
+        meta: { title: "消息" },
       },
       {
         path: "account",
@@ -57,7 +73,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 export default router;

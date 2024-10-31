@@ -15,6 +15,7 @@ export type PostVO = {
     tagList?: Array<string>;
     thumbNum?: number;
     title?: string;
+    topic?: string;
     updateTime?: string;
     user?: UserVO;
     userId?: number;

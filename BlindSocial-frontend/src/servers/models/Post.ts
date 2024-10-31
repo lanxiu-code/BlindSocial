@@ -13,6 +13,7 @@ export type Post = {
     tags?: string;
     thumbNum?: number;
     title?: string;
+    topic?: string;
     updateTime?: string;
     userId?: number;
 };

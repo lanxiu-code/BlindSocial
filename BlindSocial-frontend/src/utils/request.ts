@@ -36,7 +36,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
-
     return config;
   },
   function (error) {
@@ -50,13 +49,17 @@ axiosInstance.interceptors.response.use(
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
     const data = response.data;
-    if (data.code == ResponseCode.NOT_LOGIN_ERROR) {
-      Message.error(data.messagge);
-      window.location.href = "/#/user/login";
-    } else if (data.code != ResponseCode.SUCCESS) {
-      Message.error(data.messagge);
-    }
 
+    if (
+      data.code == ResponseCode.NOT_LOGIN_ERROR &&
+      !window.location.hash.includes("/login")
+    ) {
+      window.localStorage.setItem("isLogin", "false");
+      Message.error({ content: data.message });
+      window.location.href = "/user/login";
+    } else if (data.code != ResponseCode.SUCCESS) {
+      Message.error({ content: data.message });
+    }
     return data;
   },
   function (error) {

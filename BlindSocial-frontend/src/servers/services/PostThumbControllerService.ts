@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BaseResponse_int_ } from '../models/BaseResponse_int_';
+import type { BaseResponse_Page_PostThumbVO_ } from '../models/BaseResponse_Page_PostThumbVO_';
+import type { PostQueryRequest } from '../models/PostQueryRequest';
 import type { PostThumbAddRequest } from '../models/PostThumbAddRequest';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -22,6 +24,27 @@ export class PostThumbControllerService {
             method: 'POST',
             url: '/dev-api/post_thumb/',
             body: postThumbAddRequest,
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
+     * listMyThumbVOByPage
+     * @param postQueryRequest postQueryRequest
+     * @returns BaseResponse_Page_PostThumbVO_ OK
+     * @returns any Created
+     * @throws ApiError
+     */
+    public static listMyThumbVoByPageUsingPost(
+        postQueryRequest: PostQueryRequest,
+    ): CancelablePromise<BaseResponse_Page_PostThumbVO_ | any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/dev-api/post_thumb/my/thumb/list/page',
+            body: postQueryRequest,
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,

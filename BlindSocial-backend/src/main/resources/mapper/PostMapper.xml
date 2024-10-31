@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- @author zsj -->
-<!-- @from <a href="https://zsj.icu">编程导航知识星球</a> -->
+
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -9,6 +9,8 @@
     <resultMap id="BaseResultMap" type="com.zsj.blindsocial.model.entity.Post">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="image" column="image" jdbcType="VARCHAR"/>
+        <result property="topic" column="topic" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="content" column="content" jdbcType="VARCHAR"/>
         <result property="tags" column="tags" jdbcType="VARCHAR"/>
@@ -21,7 +23,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,title,content,tags,
+        id,title,content,tags,image,topic
         thumbNum,favourNum,userId,
         createTime,updateTime,isDelete
     </sql>

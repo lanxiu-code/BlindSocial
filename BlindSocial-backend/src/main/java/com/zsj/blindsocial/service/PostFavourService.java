@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zsj.blindsocial.model.entity.Post;
 import com.zsj.blindsocial.model.entity.PostFavour;
 import com.zsj.blindsocial.model.entity.User;
+import com.zsj.blindsocial.model.vo.PostFavourVO;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 帖子收藏服务
@@ -44,4 +47,6 @@ public interface PostFavourService extends IService<PostFavour> {
      * @return
      */
     int doPostFavourInner(long userId, long postId);
+
+    Page<PostFavourVO> getPostFavourVOPage(Page<PostFavour> favourPage, HttpServletRequest request);
 }

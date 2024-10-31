@@ -30,9 +30,9 @@ public class CodeGenerator {
     public static void main(String[] args) throws TemplateException, IOException {
         // 指定生成参数
         String packageName = "com.zsj.blindsocial";
-        String dataName = "用户评论";
-        String dataKey = "userComment";
-        String upperDataKey = "UserComment";
+        String dataName = "评论";
+        String dataKey = "comment";
+        String upperDataKey = "Comment";
 
         // 封装生成参数
         Map<String, Object> dataModel = new HashMap<>();

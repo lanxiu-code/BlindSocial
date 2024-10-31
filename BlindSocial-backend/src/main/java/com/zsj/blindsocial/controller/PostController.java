@@ -1,6 +1,8 @@
 package com.zsj.blindsocial.controller;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsj.blindsocial.annotation.AuthCheck;
 import com.zsj.blindsocial.common.BaseResponse;
@@ -16,9 +18,13 @@ import com.zsj.blindsocial.model.dto.post.PostEditRequest;
 import com.zsj.blindsocial.model.dto.post.PostQueryRequest;
 import com.zsj.blindsocial.model.dto.post.PostUpdateRequest;
 import com.zsj.blindsocial.model.entity.Post;
+import com.zsj.blindsocial.model.entity.PostFavour;
+import com.zsj.blindsocial.model.entity.PostThumb;
 import com.zsj.blindsocial.model.entity.User;
 import com.zsj.blindsocial.model.vo.PostVO;
+import com.zsj.blindsocial.service.PostFavourService;
 import com.zsj.blindsocial.service.PostService;
+import com.zsj.blindsocial.service.PostThumbService;
 import com.zsj.blindsocial.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,10 +54,55 @@ public class PostController {
 
     @Resource
     private UserService userService;
-
+    @Resource
+    private PostThumbService thumbService;
+    @Resource
+    private PostFavourService postFavourService;
     @Resource
     private PostMapper postMapper;
     // region 增删改查
+    /*
+    * 分页获取点赞列表
+    * */
+    @PostMapping("/thumb/list/page/vo")
+    public BaseResponse<Page<PostVO>> listThumbPostVOByPage(@RequestBody PostQueryRequest postQueryRequest,
+            HttpServletRequest request) {
+        long current = postQueryRequest.getCurrent();
+        long size = postQueryRequest.getPageSize();
+        // 限制爬虫
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        User loginUser = userService.getLoginUser(request);
+        List<Long> postIdList = thumbService.list(Wrappers
+                        .lambdaQuery(PostThumb.class)
+                        .eq(PostThumb::getUserId, loginUser.getId()))
+                .stream().map(PostThumb::getPostId).collect(Collectors.toList());
+        QueryWrapper<Post> wrapper = postService
+                .getQueryWrapper(postQueryRequest)
+                .in("id", postIdList);
+        Page<Post> postPage = postService.page(new Page<>(current, size),wrapper);
+        return ResultUtils.success(postService.getPostVOPage(postPage, request));
+    }
+    /*
+    * 分页获取收藏列表
+    * */
+    @PostMapping("/favour/list/page/vo")
+    public BaseResponse<Page<PostVO>> listFavourPostVOByPage(@RequestBody PostQueryRequest postQueryRequest,
+            HttpServletRequest request) {
+        long current = postQueryRequest.getCurrent();
+        long size = postQueryRequest.getPageSize();
+        // 限制爬虫
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        User loginUser = userService.getLoginUser(request);
+        List<Long> postIdList = postFavourService.list(Wrappers
+                        .lambdaQuery(PostFavour.class)
+                        .eq(PostFavour::getUserId, loginUser.getId()))
+                .stream().map(PostFavour::getPostId).collect(Collectors.toList());
+        QueryWrapper<Post> wrapper = postService
+                .getQueryWrapper(postQueryRequest)
+                .in("id", postIdList);
+        Page<Post> postPage = postService.page(new Page<>(current, size),wrapper);
+        return ResultUtils.success(postService.getPostVOPage(postPage, request));
+    }
     /*
     * 获取top7列表
     * */

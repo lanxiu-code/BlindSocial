@@ -15,6 +15,7 @@ export type PostQueryRequest = {
     sortOrder?: string;
     tags?: Array<string>;
     title?: string;
+    topic?: string;
     userId?: number;
 };
 

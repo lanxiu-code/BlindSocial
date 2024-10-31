@@ -43,10 +43,7 @@
             >
           </a-col>
           <a-col :span="11">
-            <a-button
-              style="width: 100%"
-              type="secondary"
-              href="/#/user/register"
+            <a-button style="width: 100%" type="secondary" href="/user/register"
               >注册</a-button
             >
           </a-col>

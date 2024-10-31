@@ -106,6 +106,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         String sortOrder = postQueryRequest.getSortOrder();
         Long id = postQueryRequest.getId();
         String title = postQueryRequest.getTitle();
+        String topic = postQueryRequest.getTopic();
         String content = postQueryRequest.getContent();
         List<String> tagList = postQueryRequest.getTags();
         Long userId = postQueryRequest.getUserId();
@@ -116,6 +117,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
         queryWrapper.like(StringUtils.isNotBlank(title), "title", title);
         queryWrapper.like(StringUtils.isNotBlank(content), "content", content);
+        queryWrapper.like(StringUtils.isNotBlank(topic), "topic", topic);
         if (CollUtil.isNotEmpty(tagList)) {
             for (String tag : tagList) {
                 queryWrapper.like("tags", "\"" + tag + "\"");

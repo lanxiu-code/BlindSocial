@@ -1,5 +1,7 @@
 package com.zsj.blindsocial.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,12 +13,22 @@ import com.zsj.blindsocial.mapper.PostFavourMapper;
 import com.zsj.blindsocial.model.entity.Post;
 import com.zsj.blindsocial.model.entity.PostFavour;
 import com.zsj.blindsocial.model.entity.User;
+import com.zsj.blindsocial.model.vo.CommentVO;
+import com.zsj.blindsocial.model.vo.PostFavourVO;
+import com.zsj.blindsocial.model.vo.PostThumbVO;
+import com.zsj.blindsocial.model.vo.PostVO;
 import com.zsj.blindsocial.service.PostFavourService;
 import com.zsj.blindsocial.service.PostService;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import com.zsj.blindsocial.service.UserService;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 帖子收藏服务实现
@@ -30,7 +42,8 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
 
     @Resource
     private PostService postService;
-
+    @Resource
+    private UserService userService;
     /**
      * 帖子收藏
      *
@@ -107,6 +120,29 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR);
             }
         }
+    }
+
+    @Override
+    public Page<PostFavourVO> getPostFavourVOPage(Page<PostFavour> favourPage, HttpServletRequest request) {
+        List<PostFavour> favours = favourPage.getRecords();
+        if (CollUtil.isEmpty(favours)){
+            return null;
+        }
+        Page<PostFavourVO> favourVOPage = new Page<>(favourPage.getCurrent(), favourPage.getSize(), favourPage.getTotal());
+        List<PostFavourVO> postThumbVOS = favours.stream().map(item -> {
+            PostFavourVO favourVO = new PostFavourVO();
+            BeanUtil.copyProperties(item, favourVO);
+            Long postId = item.getPostId();
+            Post post = postService.getById(postId);
+            favourVO.setPostVO(PostVO.objToVo(post));
+            Long userId = item.getUserId();
+            User user = userService.getById(userId);
+            favourVO.setUserVO(userService.getUserVO(user));
+            favourVO.setType("收藏");
+            return favourVO;
+        }).collect(Collectors.toList());
+        favourVOPage.setRecords(postThumbVOS);
+        return favourVOPage;
     }
 
 }
