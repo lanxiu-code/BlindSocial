@@ -9,7 +9,8 @@ export enum ResponseCode {
   SYSTEM_ERROR = 50000,
   PARAMS_ERROR = 40000,
   NOT_LOGIN_ERROR = 40100,
-  NOT_PERMISSION_ERROR = 40300,
+  NOT_PERMISSION_ERROR = 40101,
+  NOT_FORBIDDEN_ERROR = 40300,
   NOT_FOUND_ERROR = 40400,
   OPERATION_ERROR = 50001,
 }
@@ -49,6 +50,7 @@ axiosInstance.interceptors.response.use(
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
     const data = response.data;
+    console.log(data.code);
 
     if (
       data.code == ResponseCode.NOT_LOGIN_ERROR &&
@@ -57,6 +59,9 @@ axiosInstance.interceptors.response.use(
       window.localStorage.setItem("isLogin", "false");
       Message.error({ content: data.message });
       window.location.href = "/user/login";
+    } else if (data.code == ResponseCode.NOT_PERMISSION_ERROR) {
+      Message.error({ content: data.message });
+      window.location.href = "/not_permission";
     } else if (data.code != ResponseCode.SUCCESS) {
       Message.error({ content: data.message });
     }

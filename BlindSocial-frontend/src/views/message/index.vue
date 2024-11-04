@@ -5,9 +5,15 @@
       :selected-keys="selectKey"
       @menu-item-click="switchTab"
     >
-      <a-menu-item :key="navKey[0]">评论互动</a-menu-item>
-      <a-menu-item :key="navKey[1]">点赞</a-menu-item>
-      <a-menu-item :key="navKey[2]">收藏</a-menu-item>
+      <a-menu-item :key="navKey[0]" v-read data-text="导航评论互动"
+        >评论互动</a-menu-item
+      >
+      <a-menu-item :key="navKey[1]" v-read data-text="导航点赞"
+        >点赞</a-menu-item
+      >
+      <a-menu-item :key="navKey[2]" v-read data-text="导航收藏"
+        >收藏</a-menu-item
+      >
     </a-menu>
 
     <CommentList

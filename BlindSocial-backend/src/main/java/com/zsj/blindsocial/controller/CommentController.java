@@ -212,6 +212,9 @@ public class CommentController {
                 .lambdaQuery(Post.class)
                 .eq(Post::getUserId, loginUser.getId())
         ).stream().map(Post::getId).collect(Collectors.toList());
+        if (myPostIds.isEmpty()){
+            return ResultUtils.success(new Page<>());
+        }
         QueryWrapper<Comment> wrapper = commentService
                 .getQueryWrapper(commentQueryRequest)
                 .ne("userId", loginUser.getId())

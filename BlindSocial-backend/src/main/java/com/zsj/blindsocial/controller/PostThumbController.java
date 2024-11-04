@@ -66,6 +66,9 @@ public class PostThumbController {
                 .eq(Post::getUserId, loginUser.getId());
         List<Long> myPostIds = postService.list(postWrapper)
                 .stream().map(Post::getId).collect(Collectors.toList());
+        if (myPostIds.isEmpty()){
+            return ResultUtils.success(new Page<>());
+        }
         // 查询点赞我的
         LambdaQueryWrapper<PostThumb> favourWrapper = Wrappers.lambdaQuery(PostThumb.class)
                 .ne(PostThumb::getUserId, loginUser.getId())

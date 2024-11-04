@@ -1,5 +1,9 @@
 <template>
-  <p style="text-align: center; font-size: 20px; font-weight: 500">
+  <p
+    style="text-align: center; font-size: 20px; font-weight: 500"
+    v-read
+    data-text="热门文章TOP7"
+  >
     热门文章TOP7
   </p>
   <a-list class="list-layout" :bordered="false" :data="topList">
@@ -15,6 +19,8 @@
           </a-col>
           <a-col :span="17">
             <a-typography-text
+              v-read
+              :data-text="`热门文章,${item.title}`"
               @click="goToDetail(item.id)"
               style="cursor: pointer"
               :ellipsis="{

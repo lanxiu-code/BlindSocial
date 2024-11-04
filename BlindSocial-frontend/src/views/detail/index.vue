@@ -1,7 +1,28 @@
 <template>
   <div class="postDetail">
-    <a-typography-title bold> {{ postDetail.title }} </a-typography-title>
-    <MdViewer :content="postDetail.content" />
+    <a-typography-title bold>
+      {{ postDetail.title }}
+    </a-typography-title>
+    <a-row>
+      <a-button
+        style="width: 100%; height: 100px"
+        @click="flag = !flag"
+        v-read
+        :data-text="`点击切换盲人模式`"
+        >盲人模式</a-button
+      >
+    </a-row>
+    <div style="margin-top: 50px" v-show="flag">
+      <p
+        v-read
+        :data-text="text"
+        v-for="(text, index) in fragmentTextList"
+        :key="index"
+      >
+        {{ text }}
+      </p>
+    </div>
+    <MdViewer v-show="!flag" :content="postDetail.content" />
     <a-divider></a-divider>
     <a-typography-title :heading="3" id="评论">评论</a-typography-title>
     <a-comment align="right" :avatar="currentUser.userAvatar">
@@ -98,9 +119,11 @@ const userStore = useUserStore();
 const currentUser = computed<LoginUserVO>(() => userStore.currentUser);
 const route = useRoute();
 const router = useRouter();
+const fragmentTextList = ref<string[]>([]);
 const postDetail: any = reactive({});
 const commentList = ref<CommentVO[]>([]);
 const currentReplyId = ref(-1);
+const flag = ref(false);
 const currentReplyData: CommentVO = reactive({});
 const rootComment: CommentAddRequest = reactive({});
 const pageInfo: CommentQueryRequest = reactive({
@@ -134,6 +157,18 @@ const getPostDetail = async (id: any) => {
   const res = await PostControllerService.getPostVoByIdUsingGet(id);
   if (res.code == ResponseCode.SUCCESS) {
     Object.assign(postDetail, res.data);
+    if (res.data?.content?.length) {
+      const increment = 100;
+      for (
+        let index = 0;
+        index < res.data?.content.length;
+        index += increment
+      ) {
+        fragmentTextList.value.push(
+          res.data.content.slice(index, index + increment)
+        );
+      }
+    }
   }
 };
 // 获取评论

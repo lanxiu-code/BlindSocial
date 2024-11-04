@@ -8,8 +8,8 @@
       />
     </a-row>
 
-    <div class="title">登录即可</div>
-    <div class="title">开始浏览</div>
+    <div class="title" v-read data-text="登录即可开始浏览">登录即可</div>
+    <div class="title" v-read data-text="登录即可开始浏览">开始浏览</div>
     <a-form
       layout="vertical"
       class="a-form"
@@ -21,6 +21,8 @@
         field="userAccount"
         tooltip="Please enter username"
         label="账号"
+        v-read
+        data-text="请输入账号"
       >
         <a-input v-model="registerData.userAccount" placeholder="请输入账号" />
       </a-form-item>
@@ -28,6 +30,8 @@
         field="userPassword"
         tooltip="Please enter password"
         label="密码"
+        v-read
+        data-text="请输入密码"
       >
         <a-input-password
           v-model="registerData.userPassword"
@@ -40,6 +44,8 @@
         field="userPassword"
         tooltip="Please enter password"
         label="确认密码"
+        v-read
+        data-text="请输入确认密码"
       >
         <a-input-password
           v-model="registerData.checkPassword"
@@ -50,10 +56,17 @@
       </a-form-item>
       <a-form-item>
         <a-space direction="vertical" style="width: 100%; text-align: right">
-          <a-button style="width: 100%" type="primary" html-type="submit"
+          <a-button
+            v-read
+            data-text="按钮确认"
+            style="width: 100%"
+            type="primary"
+            html-type="submit"
             >确认</a-button
           >
-          <a-link href="/user/login">有账号，去登陆</a-link>
+          <a-link href="/user/login" v-read data-text="链接有账号，去登陆"
+            >有账号，去登陆</a-link
+          >
         </a-space>
       </a-form-item>
     </a-form>

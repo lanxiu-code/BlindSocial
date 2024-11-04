@@ -10,6 +10,32 @@ const routes = [
     hideInMenu: true,
   },
   {
+    path: "/admin",
+    name: "管理布局",
+    component: import("@/layouts/AdminLayout/index.vue"),
+    meta: { access: ["admin"] },
+    children: [
+      {
+        path: "user",
+        name: "用户管理",
+        component: import("@/views/admin/user/index.vue"),
+        meta: { title: "用户管理", access: ["admin"] },
+      },
+      {
+        path: "post",
+        name: "帖子管理",
+        component: import("@/views/admin/post/index.vue"),
+        meta: { title: "帖子管理", access: ["admin"] },
+      },
+      {
+        path: "topic",
+        name: "话题管理",
+        component: import("@/views/admin/topic/index.vue"),
+        meta: { title: "话题管理", access: ["admin"] },
+      },
+    ],
+  },
+  {
     path: "/",
     name: "基础布局",
     component: import("@/layouts/BasicLayout/index.vue"),
@@ -69,6 +95,16 @@ const routes = [
         component: import("@/views/user/register/index.vue"),
       },
     ],
+  },
+  {
+    name: "404",
+    path: "/:catchAll(.*)",
+    component: import("@/views/404/index.vue"),
+  },
+  {
+    name: "401",
+    path: "/not_permission",
+    component: import("@/views/401/index.vue"),
   },
 ];
 

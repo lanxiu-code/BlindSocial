@@ -119,7 +119,11 @@ PubSub.subscribe("addPostImgEvent", (msg, img: string) => {
   if (!postData.image) {
     postData.image = img;
   }
-  postData.content += `![](${img})`;
+  if (postData.content) {
+    postData.content += `![](${img})`;
+  } else {
+    postData.content = `![](${img})`;
+  }
 });
 
 // 获取话题

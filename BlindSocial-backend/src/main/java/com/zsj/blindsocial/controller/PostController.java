@@ -76,6 +76,9 @@ public class PostController {
                         .lambdaQuery(PostThumb.class)
                         .eq(PostThumb::getUserId, loginUser.getId()))
                 .stream().map(PostThumb::getPostId).collect(Collectors.toList());
+        if(postIdList.isEmpty()){
+            return ResultUtils.success(new Page<>());
+        }
         QueryWrapper<Post> wrapper = postService
                 .getQueryWrapper(postQueryRequest)
                 .in("id", postIdList);
@@ -97,6 +100,9 @@ public class PostController {
                         .lambdaQuery(PostFavour.class)
                         .eq(PostFavour::getUserId, loginUser.getId()))
                 .stream().map(PostFavour::getPostId).collect(Collectors.toList());
+        if(postIdList.isEmpty()){
+            return ResultUtils.success(new Page<>());
+        }
         QueryWrapper<Post> wrapper = postService
                 .getQueryWrapper(postQueryRequest)
                 .in("id", postIdList);

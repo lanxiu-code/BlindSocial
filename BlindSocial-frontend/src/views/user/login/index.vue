@@ -7,8 +7,8 @@
         src="/src/assets/image/login_title.png"
       />
     </a-row>
-    <div class="title">登录即可</div>
-    <div class="title">开始浏览</div>
+    <div class="title" v-read data-text="登录即可开始浏览">登录即可</div>
+    <div class="title" v-read data-text="登录即可开始浏览">开始浏览</div>
     <a-form
       layout="vertical"
       class="a-form"
@@ -17,6 +17,8 @@
       @submit="handleSubmit"
     >
       <a-form-item
+        v-read
+        data-text="请输入账号"
         field="userAccount"
         tooltip="Please enter username"
         label="账号"
@@ -27,6 +29,8 @@
         field="userPassword"
         tooltip="Please enter password"
         label="密码"
+        v-read
+        data-text="请输入密码"
       >
         <a-input-password
           v-model="loginData.userPassword"
@@ -38,12 +42,22 @@
       <a-form-item>
         <a-row justify="space-between" align="center" style="width: 100%">
           <a-col :span="11">
-            <a-button html-type="submit" style="width: 100%" type="primary"
+            <a-button
+              v-read
+              data-text="按钮登录"
+              html-type="submit"
+              style="width: 100%"
+              type="primary"
               >登录</a-button
             >
           </a-col>
           <a-col :span="11">
-            <a-button style="width: 100%" type="secondary" href="/user/register"
+            <a-button
+              v-read
+              data-text="按钮注册"
+              style="width: 100%"
+              type="secondary"
+              href="/user/register"
               >注册</a-button
             >
           </a-col>
@@ -68,10 +82,10 @@ const loginData = reactive({
 });
 const handleSubmit = async (data) => {
   let res = await UserControllerService.userLoginUsingPost(data.values);
-  console.log(res);
   if (res.code == ResponseCode.SUCCESS) {
     // 设置用户信息
     userStore.currentUser = res.data;
+    localStorage.setItem("isLogin", "true");
     Message.success("登录成功");
     router.push("/home");
   }

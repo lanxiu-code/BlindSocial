@@ -14,22 +14,39 @@
         >
           <template #upload-button>
             <a-space>
-              <a-button type="outline">更换头像</a-button>
+              <a-button type="outline" v-read data-text="更换头像"
+                >更换头像</a-button
+              >
             </a-space>
           </template>
         </a-upload>
       </a-col>
     </a-row>
-    <a-descriptions :data="infoData" title="用户信息" bordered size="large" />
+    <a-descriptions
+      :data="infoData"
+      v-read
+      data-text="用户信息"
+      title="用户信息"
+      bordered
+      size="large"
+    />
     <a-menu
       @menu-item-click="switchTab"
       mode="horizontal"
       :selected-keys="selectKey"
     >
-      <a-menu-item :key="navKey[0]">文章</a-menu-item>
-      <a-menu-item :key="navKey[1]">收藏</a-menu-item>
-      <a-menu-item :key="navKey[2]">喜欢</a-menu-item>
-      <a-menu-item :key="navKey[3]">修改信息</a-menu-item>
+      <a-menu-item :key="navKey[0]" v-read data-text="导航文章"
+        >文章</a-menu-item
+      >
+      <a-menu-item :key="navKey[1]" v-read data-text="导航收藏"
+        >收藏</a-menu-item
+      >
+      <a-menu-item :key="navKey[2]" v-read data-text="导航喜欢"
+        >喜欢</a-menu-item
+      >
+      <a-menu-item :key="navKey[3]" v-read data-text="导航修改信息">
+        修改信息</a-menu-item
+      >
     </a-menu>
     <template v-if="selectKey != navKey[3]">
       <PostList
@@ -43,19 +60,29 @@
       <a-row align="center">
         <a-col :span="10">
           <a-form layout="vertical" :model="currentUser" @submit="handleSubmit">
-            <a-form-item field="userName" label="昵称">
+            <a-form-item
+              field="userName"
+              label="昵称"
+              v-read
+              data-text="输入昵称"
+            >
               <a-input
                 v-model="currentUser.userName"
                 placeholder="请输入昵称"
               />
             </a-form-item>
-            <a-form-item field="userProfile" label="简介">
+            <a-form-item
+              field="userProfile"
+              label="简介"
+              v-read
+              data-text="输入简介"
+            >
               <a-input
                 v-model="currentUser.userProfile"
                 placeholder="请输入简介"
               />
             </a-form-item>
-            <a-form-item>
+            <a-form-item v-read data-text="保存">
               <a-button html-type="submit" type="primary">保存</a-button>
             </a-form-item>
           </a-form>
