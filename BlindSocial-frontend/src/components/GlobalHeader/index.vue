@@ -5,7 +5,7 @@
       style="padding: 10px; box-sizing: border-box"
       align="center"
     >
-      <a-col :span="currentUser.userRole == UserRole.ADMIN ? 4 : 2">
+      <a-col :span="5" style="display: flex; justify-content: center">
         <a-image
           :preview="false"
           width="150"
@@ -21,40 +21,42 @@
           placeholder="搜索文章"
         />
       </a-col>
-      <a-col :span="4" v-if="currentUser.userRole == UserRole.ADMIN">
-        <a-menu
-          mode="horizontal"
-          @menu-item-click="subNavSwitch"
-          v-read
-          data-text="导航管理"
+      <a-col :span="4">
+        <a-space
+          :class="[currentUser.userRole == UserRole.ADMIN ? '' : 'unlogin']"
         >
-          <a-sub-menu key="admin">
-            <template #title>
-              <a-image
-                :preview="false"
-                src="/src/assets/image/admin.png"
-                height="25px"
-                width="25px"
-              ></a-image>
-              管理
-            </template>
-            <a-menu-item :key="adminKeys[0]" v-read data-text="导航用户管理"
-              >用户管理</a-menu-item
-            >
-            <a-menu-item :key="adminKeys[1]" v-read data-text="导航文章管理"
-              >文章管理</a-menu-item
-            >
-            <a-menu-item :key="adminKeys[2]" v-read data-text="导航话题管理"
-              >话题管理</a-menu-item
-            >
-            <a-menu-item :key="adminKeys[3]" v-read data-text="导航返回首页"
-              >返回首页</a-menu-item
-            >
-          </a-sub-menu>
-        </a-menu>
-      </a-col>
-      <a-col :span="2">
-        <a-space>
+          <a-menu
+            v-if="currentUser.userRole == UserRole.ADMIN"
+            mode="pop"
+            @menu-item-click="subNavSwitch"
+            v-read
+            data-text="导航管理"
+          >
+            <a-sub-menu key="admin">
+              <template #title>
+                <a-image
+                  :preview="false"
+                  src="/src/assets/image/admin.png"
+                  height="25px"
+                  width="25px"
+                ></a-image>
+                管理
+              </template>
+              <a-menu-item :key="adminKeys[0]" v-read data-text="导航用户管理"
+                >用户管理</a-menu-item
+              >
+              <a-menu-item :key="adminKeys[1]" v-read data-text="导航文章管理"
+                >文章管理</a-menu-item
+              >
+              <a-menu-item :key="adminKeys[2]" v-read data-text="导航话题管理"
+                >话题管理</a-menu-item
+              >
+              <a-menu-item :key="adminKeys[3]" v-read data-text="导航返回首页"
+                >返回首页</a-menu-item
+              >
+            </a-sub-menu>
+          </a-menu>
+
           <icon-notification
             size="20"
             v-read
@@ -113,7 +115,7 @@ const jumpMessage = () => {
 const subNavSwitch = (key: string) => {
   router.push(key);
 };
-const handleSelect = async (key: string) => {
+const handleSelect: any = async (key: string) => {
   switch (key) {
     case "logout":
       const res = await UserControllerService.userLogoutUsingPost();
@@ -139,6 +141,12 @@ const onSearch = (value: string) => {
 <style lang="scss" scoped>
 .globalHeader {
   width: 100%;
+  min-width: 62.5rem;
   background: white;
+  .unlogin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="basicLayout">
     <GlobalHeader />
     <a-layout style="height: 46.875rem" class="layout">
-      <a-layout-sider style="border-radius: 10px">
+      <a-layout-sider style="border-radius: 10px; min-width: 200px">
         <a-menu
           style="text-align: center"
           mode="vertical"
@@ -81,6 +81,7 @@
       </a-layout-content>
       <a-layout-sider
         style="
+          min-width: 200px;
           border-radius: 10px;
           width: 250px;
           padding: 10px;
@@ -125,6 +126,7 @@ onMounted(() => {
       margin: 40px 0;
     }
     .content {
+      min-width: 800px;
       padding: 20px;
       box-sizing: border-box;
       background: white;

@@ -20,6 +20,7 @@
           评论了你
         </a-typography-text>
         <a-typography-text
+          style="cursor: pointer"
           v-show="currentUser.id == comment.userId"
           @click="jump(comment.postId)"
         >
