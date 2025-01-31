@@ -27,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
  * 文件接口
  *
  * @author zsj
-
  */
 @RestController
 @RequestMapping("/file")

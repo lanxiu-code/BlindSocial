@@ -33,7 +33,6 @@ PubSub.subscribe("searchEvent", (msg, params) => {
   searchParams.title = params.title;
   loadPostData();
 });
-
 // 更新列表
 const updatePostList = (list: PostVO[]) => {
   postsList.value = list;
